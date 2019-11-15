@@ -1,11 +1,11 @@
-name: CI
-
-on: [push]
-
+on: push
+name: on push
 jobs:
-  build:
+  gitHubActionForPytest:
+    name: GitHub Action for pytest
     runs-on: ubuntu-latest
-
     steps:
-      - name: Run tests
-        run: python3.7 -m pytest
+    - name: GitHub Action for pytest
+      uses: cclauss/GitHub-Action-for-pytest@master
+      with:
+        args: pytest -h
