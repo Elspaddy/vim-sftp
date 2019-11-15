@@ -1,0 +1,6 @@
+{
+	"user": "bar",
+	"host": "mock2.host.com",
+	"port": 2222,
+	"key_path": "./unit_tests/configs/valid_key"
+}

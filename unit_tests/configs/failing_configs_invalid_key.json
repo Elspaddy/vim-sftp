@@ -1,0 +1,6 @@
+{
+	"user": "asilva173",
+	"host": "mock2.host.com",
+	"port": 2222,
+	"key_path": "./invalid_key"
+}
