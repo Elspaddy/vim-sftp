@@ -1,0 +1,11 @@
+on: push
+name: on push
+jobs:
+  gitHubActionForPytest:
+    name: GitHub Action for pytest
+    runs-on: ubuntu-latest
+    steps:
+      - name: GitHub Action for pytest
+        uses: cclauss/GitHub-Action-for-pytest@master
+        with:
+          args: pytest -h

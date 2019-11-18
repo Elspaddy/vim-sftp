@@ -176,6 +176,12 @@ class SFTPProvider:
 
     def get_file_from_remote(self, remote_file):
         local_file = remote_file.to_local(self)
+
+        if local_file._modified_date >= remote_file._modified_date:
+            print(f"Up-to-date {local_file._name}")
+            sys.stdout.flush()
+            return
+
         os.makedirs(local_file._path, exist_ok=True)
 
         self._sftp.get(remote_file.full_path(), 
@@ -194,6 +200,12 @@ class SFTPProvider:
 
     def send_file_to_remote(self, local_file):
         remote_file = local_file.to_remote(self)
+
+        if local_file._modified_date <= remote_file._modified_date:
+            print(f"Up-to-date {remote_file._name}")
+            sys.stdout.flush()
+            return
+
         self._sftp.makedirs(remote_file._path)
 
         self._sftp.put(local_file.full_path(), 

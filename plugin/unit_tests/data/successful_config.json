@@ -1,0 +1,21 @@
+{
+	"user": "foo",
+	"host": "sftp.foo.com",
+	"port": 2222,
+	"key_path": "./unit_tests/data/key",
+	"remote_folder": "/home/BarFoo/path/to/folder",
+	"local_folder": "/home/FooBar/folder",
+	"ignore": [
+		"/build",
+		".swp$",
+		".git",
+		".swo$",
+		".o$",
+		".d$",
+		".pyc$",
+		".lcldev",
+		".vscode",
+		".cscope.out$",
+		".vim"
+	]
+}
