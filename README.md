@@ -31,8 +31,11 @@ This is a simple plugin to download/upload files via SFTP using vim.
 
 The commands are:
 	- `GetAllFilesFromRemote`
+
 	- `SendAllFilesToRemote`
+
 	- `SendCurrentFileToRemote`
+
 	- `SendAllOpenBuffersToRemote`
 
 ## Warning
