@@ -133,6 +133,9 @@ class Node:
         return "/".join(items[:-1]), items[-1]
 
 class SFTPProvider:
+    TOTAL_FILES = 0
+    CURRENT_FILE = 0
+    
     def __init__(self, config):
         self._config = config
 
@@ -169,7 +172,7 @@ class SFTPProvider:
     def get_from_remote_callback(cls, sftp_provider, remote_file):
         def get_from_remote_callback_function(current, total):
             p = int((float(current)/total) * 100)
-            print(f"{p}% of {remote_file._name} downloaded")
+            print(f"{p}% of {remote_file.full_path()} downloaded")
             sys.stdout.flush()
 
         return get_from_remote_callback_function
@@ -178,7 +181,7 @@ class SFTPProvider:
         local_file = remote_file.to_local(self)
 
         if local_file._modified_date >= remote_file._modified_date:
-            print(f"Up-to-date {local_file._name}")
+            print(f"Up-to-date {local_file.full_path()}")
             sys.stdout.flush()
             return
 
@@ -193,7 +196,7 @@ class SFTPProvider:
     def send_to_remote_callback(cls, sftp_provider, local_file):
         def send_to_remote_callback_function(current, total):
             p = int((float(current)/total) * 100)
-            print(f"{p}% of {local_file._name} uploaded")
+            print(f"{p}% of {local_file.full_path()} uploaded")
             sys.stdout.flush()
 
         return send_to_remote_callback_function
@@ -202,7 +205,7 @@ class SFTPProvider:
         remote_file = local_file.to_remote(self)
 
         if local_file._modified_date <= remote_file._modified_date:
-            print(f"Up-to-date {remote_file._name}")
+            print(f"Up-to-date {remote_file.full_path()}")
             sys.stdout.flush()
             return
 

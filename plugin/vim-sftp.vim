@@ -18,7 +18,7 @@ endfunction
 
 function! SendCurrentFileToRemote()
 	let command_line = GetVimSFTPCommandLine()
-	execute command_line . 'send_single_file_to_remote ' . expand('%h:p')
+	execute command_line . 'send_single_file_to_remote ' . expand('%:p')
 endfunction
 
 function! SendAllOpenBuffersToRemote()
