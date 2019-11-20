@@ -201,10 +201,10 @@ class SFTPProvider:
 
         return send_to_remote_callback_function
 
-    def send_file_to_remote(self, local_file):
+    def send_file_to_remote(self, local_file, force = False):
         remote_file = local_file.to_remote(self)
 
-        if local_file._modified_date <= remote_file._modified_date:
+        if not force and local_file._modified_date <= remote_file._modified_date:
             print(f"Up-to-date {remote_file.full_path()}")
             sys.stdout.flush()
             return
@@ -250,13 +250,13 @@ class SFTPProvider:
                             SFTPProvider.get_all_files_from_remote_callback(self, 'unknown'),
                             recurse=False)
 
-    def send_all_files_to_remote(self, root):
+    def send_all_files_to_remote(self, root, force = False):
         for root, dirs, files in os.walk(root.full_path()):
             for cur_file in files:
                 file_path = f"{root}/{cur_file}"
                 if not SFTPProvider.should_ignore(self, file_path):
                     local_file = sftp_provider.get_local_node(file_path)
-                    sftp_provider.send_file_to_remote(local_file)
+                    sftp_provider.send_file_to_remote(local_file, force)
 
 if __name__ == "__main__":
     config_path = sys.argv[1]
@@ -278,6 +278,13 @@ if __name__ == "__main__":
         node = Node(root, name, 0, True, False)
 
         sftp_provider.send_all_files_to_remote(node)
+
+    if operation == "send_all_files_to_remote_force":
+        path = config.local_folder()
+        root, name = Node.split_path(path)
+        node = Node(root, name, 0, True, False)
+
+        sftp_provider.send_all_files_to_remote(node, True)
 
     if operation == "get_single_file_from_remote":
         path = sys.argv[3]
@@ -303,9 +310,15 @@ if __name__ == "__main__":
 
     if operation == "send_multiple_files_to_remote":
         paths = sys.argv[3:]
-
         for path in paths:
-            path = sys.argv[3]
             local_file = sftp_provider.get_local_node(path)
 
             sftp_provider.send_file_to_remote(local_file)
+
+    if operation == "send_multiple_files_to_remote_force":
+        paths = sys.argv[3:]
+
+        for path in paths:
+            local_file = sftp_provider.get_local_node(path)
+
+            sftp_provider.send_file_to_remote(local_file, True)
